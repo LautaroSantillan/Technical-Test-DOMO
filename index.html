@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Prueba técnica</title>
+</head>
+<body>
+
+    <section>
+        <input type="text" id="dni" placeholder="DNI">
+        <input type="text" id="apellido" placeholder="Apellido">
+        <input type="button" value="Agregar" onclick="agregarUsuario()">
+    </section>
+
+    <script>
+        async function agregarUsuario() {
+            const dni = document.getElementById('dni').value;
+            const apellido = document.getElementById('apellido').value;
+
+            const payload = new URLSearchParams();
+            payload.append('dni', dni);
+            payload.append('apellido', apellido);
+
+            console.log('DNI:', dni);
+            console.log('Apellido:', apellido);
+
+            try {
+                const response = await fetch('agregar.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: payload
+                });
+
+                if (!response.ok) {
+                    throw new Error('La respuesta no fue correcta.');
+                }
+
+                const data = await response.text();
+                console.log('Response:', data);
+                alert(data);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error. Por favor intenta nuevamente.');
+            }
+        }
+    </script>
+    
+</body>
+</html>
